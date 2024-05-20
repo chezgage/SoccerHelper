@@ -75,10 +75,7 @@ function isPhoneNumber(x) {
 
 /** Return the email address for a given node */
 function getEmailInfo(x) {
-    // console.log(x.innerText);
-    // console.log(x.innerHTML);
-    // x.children[1].children[0].innerText;
-    return x.children[0].innerText;
+    return x.children[0].innerText.toLowerCase();
 }
 
 /** Return the normalized phone number for a given node */
