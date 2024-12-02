@@ -1,6 +1,7 @@
 // Used to scrape Roster info from TeamSnap (https://go.teamsnap.com/1234567/roster/list)
 // Open up console in the browser and paste the following
 // Then copy the resulting csv log and paste into a new file
+// https://stackoverflow.com/questions/11849562/how-to-save-the-output-of-a-console-logobject-to-a-file
 
 const nameHeader = 'Name';
 const emailHeader = 'E-mail Address';
