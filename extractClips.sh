@@ -24,7 +24,7 @@ ExtractClip() {
 
     # Increment number and pad to 2 digits
     printf -v num "%02d" $((fileNo++))
-    outputFile=${filePrefix}_${4}_${num}.mp4
+    outputFile=${filePrefix}_${num}_${4}.mp4
     # echo file output is $outputFile
 
     # https://superuser.com/questions/138331/using-ffmpeg-to-cut-up-video
@@ -37,8 +37,10 @@ ExtractClip() {
     # Sample ways to call and extract a clip.
     # ffmpeg -ss 1:35 -i GX010017.MP4 -t 10 -c copy pass01a.mp4 # Good: starts at 1:35 and goes for 10s
     # ffmpeg -ss 1:35 -i GX010017.MP4 -to 1:45 -c copy -copyts pass01b.mp4 # Bad: Black at start till 1:35, then video till 1:45 in original, so yes the right 10s of video, but the leading black _for_ 1:35 is silly
+      # see `setpts=PTS-STARTPTS` to adjust the timestamp in this situation
     # ffmpeg -ss 1:35 -i GX010017.MP4 -to 0:10 -c copy pass01c.mp4 # Good: starts at 1:35 and goes to 0:10s into the new file
     # ffmpeg -ss 1:35 -i GX010017.MP4 -to 1:45 -c copy pass01d.mp4 # Bad: starts at 1:35 and goes _for_ 1:45 more ... ending at 3:20 in original
+      # see '-copyts' to not reset the timestamp from the '-ss' starting point
     # ffmpeg -ss 1:35 -to 1:45 -i GX010017.MP4 -c copy pass01e.mp4 # Good: starts at 1:35, ends at 1:45 (total of 10s) in original time measurements
 
     echo Running command: $cmd
