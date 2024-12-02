@@ -38,15 +38,17 @@ ffmpeg -i in.mp4 -filter_complex \
  [0:v]trim=start=40:end=50,setpts=PTS-STARTPTS[b]; \
  [a][b]concat[c]; \
  [0:v]trim=start=80,setpts=PTS-STARTPTS[d]; \
- [c][d]concat[out1]" -map [out1] out.mp4
+ [c][d]concat[out1]" -map '[out1]' out.mp4
 
-ffmpeg -i in.mp4 -filter_complex \
+# Works, but re-encodes, so is slow
+ffmpeg -i in5.mp4 -filter_complex \
 "[0:v]trim=start=60:end=120,setpts=PTS-STARTPTS[a]; \
  [0:v]trim=start=240:end=360,setpts=PTS-STARTPTS[b]; \
- [a][b]concat[out1]" -map [out1] -y out.mp4
+ [a][b]concat[out1]" -map '[out1]' -y out.mp4
 
 
-
+# Looks like we can't do a filterspec and a stream copy. So, this may not ever work out in just one command.
+# [vost#0:0 @ 0x131e06530] Streamcopy requested for output stream fed from a complex filtergraph. Filtering and streamcopy cannot be used together.
 
 
 ffmpeg -i in.mp4 -filter_complex \
@@ -60,8 +62,8 @@ ffmpeg -i in.mp4 -filter_complex \
 
 # works, but re-encodes so that's not good
 ffmpeg \
-  -ss 01:04 -to 02:04 -i in.mp4 \
-  -ss 54:19 -to 55:19 -i in.mp4 \
+  -ss 01:04 -to 02:04 -i in5.mp4 \
+  -ss 3:30 -to 4:37 -i in5.mp4 \
   -filter_complex '[0:v][1:v]concat=n=2:v=1[outv]' \
   -map '[outv]' -y out.mp4
 
